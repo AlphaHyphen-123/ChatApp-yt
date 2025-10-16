@@ -8,6 +8,7 @@
     "dev": "nodemon index.js",
     "start": "nodemon index.js",
     "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend"
+
   },
   "keywords": [
     "MERN"
