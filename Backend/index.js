@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["https://chatapp-frontend.onrender.com"], // your frontend render URL
+    origin: ["https://chatapp-yt-vu7b.onrender.com"],  // 👈 correct frontend URL  // your frontend render URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
