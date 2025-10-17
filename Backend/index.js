@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import { app, server } from "./SocketIO/server.js";
 import userRoute from "./routes/user.route.js";
 import messageRoute from "./routes/message.route.js";
+import express from 'express';
 
 dotenv.config();
 
