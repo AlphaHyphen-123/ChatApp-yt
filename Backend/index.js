@@ -14,7 +14,16 @@ dotenv.config();
 // middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+
+
+app.use(
+  cors({
+    origin: ["https://chatapp-frontend.onrender.com"], // your frontend render URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 
 const PORT = process.env.PORT || 3001;
 const URI = process.env.MONGODB_URI;
