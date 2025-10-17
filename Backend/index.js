@@ -1,35 +1,30 @@
-import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import path from "path";
+import { fileURLToPath } from "url";
+import { app, server } from "./SocketIO/server.js";
 import userRoute from "./routes/user.route.js";
 import messageRoute from "./routes/message.route.js";
-import { app, server } from "./SocketIO/server.js";
-import path from "path";
 
 dotenv.config();
 
-// middlewares
+// ---------- Middleware ----------
 app.use(express.json());
 app.use(cookieParser());
+
+// ✅ CORS Setup
 app.use(
   cors({
-    origin: "https://chatapp-yt-vu7b.onrender.com", // ✅ your frontend URL
-    credentials: true, // ✅ allow cookies/tokens
+    origin: "https://chatapp-yt-vu7b.onrender.com", // ✅ Render frontend URL
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-
-// ✅ Correct CORS Setup
-
-const PORT = process.env.PORT || 3001;
+// ---------- Database ----------
 const URI = process.env.MONGODB_URI;
-
-// ✅ MongoDB Connection
 try {
   await mongoose.connect(URI);
   console.log("✅ Connected to MongoDB");
@@ -37,20 +32,23 @@ try {
   console.log("❌ MongoDB Connection Error:", error.message);
 }
 
-// ✅ Routes
+// ---------- Routes ----------
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
 
-// ✅ Production Build Serve
+// ---------- Production Build ----------
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 if (process.env.NODE_ENV === "production") {
-  const __dirname = path.resolve();
-  app.use(express.static("./Frontend/dist"));
+  app.use(express.static(path.join(__dirname, "./frontend/dist")));
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./Frontend/dist", "index.html"));
+    res.sendFile(path.join(__dirname, "./frontend/dist", "index.html"));
   });
 }
 
-// ✅ Server Listen
+// ---------- Server Start ----------
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
