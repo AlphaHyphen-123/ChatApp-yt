@@ -14,7 +14,15 @@ dotenv.config();
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://chatapp-yt-vu7b.onrender.com", // ✅ your frontend URL
+    credentials: true, // ✅ allow cookies/tokens
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 
 // ✅ Correct CORS Setup
 
